@@ -6,7 +6,7 @@
       "strict": true
     },
     "files": [
-      "src/app.ts"
+      "src/ty-challenge.ts"
     ],
 
 }
