@@ -11,11 +11,11 @@
 
 
 /*  Vidéo 1 : Installation du TS
-//les lets sont convertis en var car les navigateur de destination sont un peu vieux
-//pour cibler un navigateur plus recent, parametrer en config config la "target"
-//pour ne pas parametrer les erreur "noEmitOnError"
-//pour stoper la conversion "noEmit" a true
-//!strict, active les flag qui permet de contraindre les erreur (toutes les fonctions seront typée)*/
+*les lets sont convertis en var car les navigateur de destination sont un peu vieux
+*pour cibler un navigateur plus recent, parametrer en config config la "target"
+*pour ne pas parametrer les erreur "noEmitOnError"
+*pour stoper la conversion "noEmit" a true
+*strict, active les flag qui permet de contraindre les erreur (toutes les fonctions seront typée)*/
 
 
 /*const compteur = document.querySelector('#compteur')
@@ -42,24 +42,24 @@ compteur.addEventListener('click', increment)*/
 // const b: boolean = true
 // const d: null = null
 //
-// //pour les tableau, note valeurs contenue dans le tableau
+//pour les tableau, note valeurs contenue dans le tableau
 // const arr : string[] = ['aze', 'aze', 'aze'];
 // const arr2: number[] = [ 3 , 4 , 5];
 //
-// //type mixé ( à éviter car "trop gros")
+//type mixé ( à éviter car "trop gros")
 // const arrAny: any[] = [ "truc" , 4 , 5];
 //
-// //syntaxe object typé(avec propriété optionnelle avec ?)
+//syntaxe object typé(avec propriété optionnelle avec ?)
 // const user: {firstname: string, lastname?:string } = {firstname: "John", lastname: "DOE"}
 //
-// //object avec infinité de clé
+//object avec infinité de clé
 // const user2: { [key:string]:string } = {firstname: "John", lastname: "DOE"}
 //
-// //autre type (MouseEvent, date, keyEvent)
+//autre type (MouseEvent, date, keyEvent)
 // const date: Date = new Date();
 //
-// //type de fonction  avec type de retour
-// //ici, si return void, retour pas utilisé mais retour faux plus tard
+//type de fonction  avec type de retour
+//ici, si return void, retour pas utilisé mais retour faux plus tard
 // const callBack : Function = (e:MouseEvent):void =>{
 // }
 //
@@ -124,3 +124,6 @@ compteur?.addEventListener('click', increment)
 * -permets d'être plus explicite que le JS
 * -permets d'éviter des erreurs de types
 * */
+
+////////////////////////////////
+
