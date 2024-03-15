@@ -256,11 +256,11 @@ myUserAccount.name;
 // https://mariusschulz.com/blog/the-unknown-type-in-typescript
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type
 
-// Never
+//*!Never
 
-// Because TypeScript supports code flow analysis, the language
-// needs to be able to represent when code logically cannot
-// happen. For example, this function cannot return:
+// TypeScript prenant en charge l'analyse du flux de code, le langage
+// doit être capable de représenter quand le code ne peut logiquement pas
+//  se produire. Par exemple, cette fonction ne peut pas retourner :
 
 const neverReturns = () => {
   // If it throws on the first line
@@ -288,26 +288,29 @@ const validateUser = (user: User) => {
   return neverReturns();
 };
 
-// The type definitions state that a user has to be passed in
-// but there are enough escape valves in JavaScript whereby
-// you can't guarantee that.
+// Les définitions de type stipulent qu'un utilisateur doit être introduit dans le système.
+// mais il y a suffisamment d'échappatoires en JavaScript pour que
+// vous ne pouvez pas le garantir.
 
-// Using a function which returns never allows you to add
-// additional code in places which should not be possible.
-// This is useful for presenting better error messages,
-// or closing resources like files or loops.
+// L'utilisation d'une fonction qui ne renvoie jamais vous permet d'ajouter
+// d'ajouter du code supplémentaire à des endroits où cela ne devrait pas être possible.
 
-// A very popular use for never, is to ensure that a
-// switch is exhaustive. E.g., that every path is covered.
+//Ceci est utile pour présenter de meilleurs messages d'erreur 
+// ou pour fermer des ressources telles que des fichiers ou des boucles,
+// ou pour fermer des ressources telles que des fichiers ou des boucles.
 
-// Here's an enum and an exhaustive switch, try adding
-// a new option to the enum (maybe Tulip?)
+// Une utilisation très populaire de la fonction "never" est de s'assurer qu'un
+// est exhaustif. Par exemple, pour s'assurer que tous les chemins sont couverts.
+
+// Voici une énumération et un commutateur exhaustif, essayez d'ajouter
+// une nouvelle option à l'énumération (peut-être Tulip ?)
 
 enum Flower {
   Rose,
   Rhododendron,
   Violet,
   Daisy,
+  Tulips,
 }
 
 const flowerLatinName = (flower: Flower) => {
