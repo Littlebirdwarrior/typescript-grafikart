@@ -347,3 +347,196 @@ type NeverIsRemoved = string | never | number;
 // This feature is used a lot in example:conditional-types
 
 
+//*!Truple
+
+// Généralement, un tableau zéro à plusieurs objets d'un
+// type unique. TypeScript dispose d'une syntaxe spéciale pour les
+// les tableaux qui contiennent plusieurs types Dans ce cas, l'ordre
+// dans lequel ces types sont indexés est important.
+
+// These are called tuples. Think of them as a way to
+// connect some data, mais avec une syntaxe moins compliqué que les objets-clés.
+
+// You can create a tuple using JavaScript's array syntax:
+
+const failingResponse = ["Not Found", 404];
+
+// but you will need to declare its type as a tuple.
+
+const passingResponse: [string, number] = ["{}", 200];
+
+// If you hover over the two variable names you can see the
+// difference between an array ( (string | number)[] ) and
+// the tuple ( [string, number] ).
+
+// Comme il s'agit d'un tableau, l'ordre n'est pas important.
+// n'importe quel indice peut être une chaîne de caractères ou un nombre. 
+//  In the tuple the order and length are guaranteed.
+
+if (passingResponse[1] === 200) {
+  const localInfo = JSON.parse(passingResponse[0]);
+  console.log(localInfo);
+}
+
+// This means TypeScript will provide the correct types at
+// the right index, and even raise an error if you try to
+// access an object at an un-declared index.
+
+passingResponse[2];
+
+// A tuple can feel like a good pattern for short bits of
+// connected data or for fixtures.
+
+type StaffAccount = [number, string, string, string?];
+
+const staff: StaffAccount[] = [
+  [0, "Adankwo", "adankwo.e@"],
+  [1, "Kanokwan", "kanokwan.s@"],
+  [2, "Aneurin", "aneurin.s@", "Supervisor"],
+];
+
+// Lorsque vous avez un ensemble de types connus au début d'un tuple
+// puis une longueur inconnue, vous pouvez utiliser l'opérateur 
+// d'étalement (the spread operator) "..." pour indiquer qu'il peut avoir 
+// n'importe quelle longueur et que les index supplémentaires
+// seront d'un type particulier :
+
+type PayStubs = [StaffAccount, ...number[]];
+
+const payStubs: PayStubs[] = [
+  [staff[0], 250],
+  [staff[1], 250, 260],
+  [staff[0], 300, 300, 300],
+];
+
+const monthOnePayments = payStubs[0][1] + payStubs[1][1] + payStubs[2][1];
+const monthTwoPayments = payStubs[1][2] + payStubs[2][2];
+const monthThreePayments = payStubs[2][2];
+
+// You can use tuples to describe functions which take
+// an undefined number of parameters with types:
+
+declare function calculatePayForEmployee(id: number, ...args: [...number[]]): number;
+
+calculatePayForEmployee(staff[0][0], payStubs[0][1]);
+calculatePayForEmployee(staff[1][0], payStubs[1][1], payStubs[1][2]);
+
+//*! Built-in Utility Types
+
+// When a particular type feels like it's useful in most
+// codebases, they are added into TypeScript and become
+// available for anyone which means you can consistently
+// rely on their availability
+
+//**Partial<Type>
+
+// Takes a type and converts all of its properties
+// to optional ones.
+
+interface Sticker {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  submitter: undefined | string;
+}
+
+type StickerUpdateParam = Partial<Sticker>;
+
+//**Readonly<Type>
+
+// Takes an object and makes its properties read-only.
+
+type StickerFromAPI = Readonly<Sticker>;
+
+//**Record<KeysFrom, Type>
+
+// Crée un type qui utilise la liste des propriétés de
+// KeysFrom et leur donne la valeur de Type.
+
+// List which keys come from:
+type NavigationPages = "home" | "stickers" | "about" | "contact";
+
+// The shape of the data for which each of ^ is needed:
+interface PageInfo {
+  title: string;
+  url: string;
+  axTitle?: string;
+}
+
+const navigationInfo: Record<NavigationPages, PageInfo> = {
+  home: { title: "Home", url: "/" },
+  about: { title: "About", url: "/about" },
+  contact: { title: "Contact", url: "/contact" },
+  stickers: { title: "Stickers", url: "/stickers/all" },
+};
+
+//**Pick<Type, Keys>
+
+// Creates a type by picking the set of properties Keys
+// from Type. Essentiellement une liste d'autorisations pour 
+// extraire des informations de type d'un type.
+
+type StickerSortPreview = Pick<Sticker, "name" | "updatedAt">;
+
+//**Omit<Type, Keys>
+
+// Creates a type by removing the set of properties Keys
+// from Type. Essentially a block-list for extracting type
+// information from a type.
+
+type StickerTimeMetadata = Omit<Sticker, "name">;
+
+//**Exclude<Type, RemoveUnion>
+
+// Creates a type where any property in Type's properties
+// which don't overlap with RemoveUnion.
+
+type HomeNavigationPages = Exclude<NavigationPages, "home">;
+
+//**Extract<Type, MatchUnion>
+
+// Creates a type where any property in Type's properties
+// are included if they overlap with MatchUnion.
+
+type DynamicPages = Extract<NavigationPages, "home" | "stickers">;
+
+//**NonNullable<Type>
+
+// Creates a type by excluding null and undefined from a set
+// of properties. Useful when you have a validation check.
+
+type StickerLookupResult = Sticker | undefined | null;
+type ValidatedResult = NonNullable<StickerLookupResult>;
+
+//**ReturnType<Type>
+
+// Extracts the return value from a Type.
+
+declare function getStickerByID(id: number): Promise<StickerLookupResult>;
+type StickerResponse = ReturnType<typeof getStickerByID>;
+
+//**InstanceType<Type>
+
+// Creates a type which is an instance of a class, or object
+// with a constructor function.
+
+class StickerCollection {
+  stickers: Sticker[];
+}
+
+type CollectionItem = InstanceType<typeof StickerCollection>;
+
+//**Required<Type>
+
+// Creates a type which converts all optional properties
+// to required ones.
+
+type AccessiblePageInfo = Required<PageInfo>;
+
+//**ThisType<Type>
+
+// Unlike other types, ThisType does not return a new
+// type but instead manipulates the definition of this
+// inside a function. You can only use ThisType when you
+// have noImplicitThis turned on in your TSConfig.

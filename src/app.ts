@@ -100,8 +100,8 @@ compteur.addEventListener('click', increment)*/
 //     console.log(id.toString());
 // }
 
-const compteur = document.querySelector('#compteur') as HTMLButtonElement
-let i: number = 0;
+// const compteur = document.querySelector('#compteur') as HTMLButtonElement //! attentions, le as et le ! force le type
+//let i: number = 0;
 
 //ici, la fonction incrément est déclaré comme un mouse event
 const increment = (e:Event) => {
@@ -117,13 +117,21 @@ const increment = (e:Event) => {
     }
 }
 
-//compteur avec ? ne sera utilisé que si compteur existe
-compteur?.addEventListener('click', increment)
 
 /*Conclusion v2, le ts
 * -permets d'être plus explicite que le JS
 * -permets d'éviter des erreurs de types
 * */
 
-////////////////////////////////
+/** 3- Alias et Générique */
+/*
+Permet de créer des fonctions réutilisable par plusieurs type de données car utilise plusieurs tyoes
+*/
 
+const compteur = document.querySelector<HTMLButtonElement>('#compteur')
+let i: number = 0;
+////////////////////////////////
+//marche aussi pour les tableau qui contiennent plusieurs type de données
+
+//compteur avec ? ne sera utilisé que si compteur existe
+compteur?.addEventListener('click', increment)
